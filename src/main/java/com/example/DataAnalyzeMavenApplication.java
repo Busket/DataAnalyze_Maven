@@ -8,6 +8,8 @@ public class DataAnalyzeMavenApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DataAnalyzeMavenApplication.class, args);
+
+
 	}
 
 }
