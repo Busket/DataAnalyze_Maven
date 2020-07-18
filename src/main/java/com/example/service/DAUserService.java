@@ -13,7 +13,7 @@ public interface DAUserService {
     //查询所有用户
     PageInfo<DAUser> selectAllUser(int page, int limit);
 
-    //保存添加的用户
+    //注册用户（添加用户）
     int insertSelective(DAUser record);
 
     //删除用户信息

@@ -3,11 +3,20 @@ package com.example.service.impl;
 import com.example.entity.DAUser;
 import com.example.repostitory.DAUserMapper;
 import com.example.service.DAUserService;
+import com.example.shiro.ShiroUtil;
+import com.example.util.JwtUtil;
 import com.github.pagehelper.PageInfo;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class DAUserimpl implements DAUserService {
@@ -24,10 +33,31 @@ public class DAUserimpl implements DAUserService {
     public PageInfo<DAUser> selectAllUser(int page, int limit) {
         return null;
     }
-    //保存添加的用户
+
+    //注册用户（添加用户）
     @Override
-    public int insertSelective(DAUser record) {
-        return 0;
+    public int insertSelective( @Param("record")DAUser record) {
+        //此处密码做加盐加密
+        String salt= UUID.randomUUID().toString();
+        String message=record.getPassword();
+        String encryption= ShiroUtil.encryptionBySalt(salt,message);
+        //存储加密后的密码
+        record.setPassword(encryption);
+        record.setSalt(salt);//存储盐
+        //获取timestamp
+        Timestamp t = new Timestamp(System.currentTimeMillis());
+        //此处设置creat_at
+        record.setCreat_at(t);
+        record.setUpdate_at(t);
+
+        //此处设置remember_token
+        //为了方便测试，我们将过期时间设置为1分钟
+        JwtUtil jwtUtil=new JwtUtil();
+        String token=jwtUtil.createJWT(record);//创建jwt
+        System.out.println(token);
+        record.setRemember_token(token);
+
+        return daUserMapper.insertSelective(record);
     }
     //删除用户信息
     @Override

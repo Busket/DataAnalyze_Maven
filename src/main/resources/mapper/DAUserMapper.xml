@@ -7,14 +7,15 @@
         <result column="phone" jdbcType="VARCHAR" property="phone" />
         <result column="password" jdbcType="VARCHAR" property="password" />
         <result column="email" jdbcType="VARCHAR" property="email" />
-        <result column="email_varified_at" jdbcType="VARCHAR" property="email_varified_at" />
+        <result column="email_verified_at" jdbcType="TIMESTAMP" property="email_verified_at" />
         <result column="remember_token" jdbcType="VARCHAR" property="remember_token" />
-        <result column="creat_at" jdbcType="VARCHAR" property="creat_at" />
-        <result column="update_at" jdbcType="VARCHAR" property="update_at" />
-
+        <result column="creat_at" jdbcType="TIMESTAMP" property="creat_at" />
+        <result column="update_at" jdbcType="TIMESTAMP" property="update_at" />
+<!--        <result column="competence" jdbcType="VARCHAR" property="competence" />-->
+        <result column="salt" jdbcType="VARCHAR" property="salt" />
     </resultMap>
     <sql id="Base_Column_List">
-        id,name,phone,password,email,email_vatified_at,remenmber_token,creat_at,update_at
+        id,name,phone,password,email,email_verified_at,remember_token,creat_at,update_at,salt
     </sql>
     <!--查找所有用户-->
     <select id="selectAllUser"  resultMap="BaseResultMap">
@@ -27,8 +28,76 @@
         from DAUSer
         where email = #{email,jdbcType=VARCHAR}
     </select>
+    <!--注册用户（插入用户）-->
+    <insert id="insertSelective" parameterType="com.example.entity.DAUser">
+        insert into da_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="email_verified_at != null">
+                email_verified_at,
+            </if>
+            <if test="remember_token != null">
+                remember_token,
+            </if>
+            <if test="creat_at != null">
+                creat_at,
+            </if>
+            <if test="update_at != null">
+                update_at,
+            </if>
+            <if test="salt != null">
+                salt,
+            </if>
 
-
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="email_verified_at != null">
+                #{email_verified_at,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remember_token != null">
+                #{remember_token,jdbcType=VARCHAR},
+            </if>
+            <if test="creat_at != null">
+                #{creat_at,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_at != null">
+                #{update_at,jdbcType=TIMESTAMP},
+            </if>
+            <if test="salt != null">
+                #{salt,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+</mapper>
 <!--    <delete id="delUserByID"  parameterType="java.util.List">-->
 <!--        delete from tbl_user-->
 <!--        where id in-->
@@ -52,79 +121,6 @@
 <!--        #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},-->
 <!--        #{sex,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{delFlag,jdbcType=CHAR},-->
 <!--        #{remark,jdbcType=VARCHAR})-->
-<!--    </insert>-->
-<!--    <insert id="insertSelective" parameterType="com.seventeam.entity.TUser">-->
-<!--        insert into tbl_user-->
-<!--        <trim prefix="(" suffix=")" suffixOverrides=",">-->
-<!--            <if test="userId != null">-->
-<!--                user_id,-->
-<!--            </if>-->
-<!--            <if test="deptId != null">-->
-<!--                dept_id,-->
-<!--            </if>-->
-<!--            <if test="username != null">-->
-<!--                username,-->
-<!--            </if>-->
-<!--            <if test="password != null">-->
-<!--                password,-->
-<!--            </if>-->
-<!--            <if test="email != null">-->
-<!--                email,-->
-<!--            </if>-->
-<!--            <if test="phone != null">-->
-<!--                phone,-->
-<!--            </if>-->
-<!--            <if test="sex != null">-->
-<!--                sex,-->
-<!--            </if>-->
-<!--            <if test="salt != null">-->
-<!--                salt,-->
-<!--            </if>-->
-<!--            <if test="status != null">-->
-<!--                status,-->
-<!--            </if>-->
-<!--            <if test="delFlag != null">-->
-<!--                del_flag,-->
-<!--            </if>-->
-<!--            <if test="remark != null">-->
-<!--                remark,-->
-<!--            </if>-->
-<!--        </trim>-->
-<!--        <trim prefix="values (" suffix=")" suffixOverrides=",">-->
-<!--            <if test="userId != null">-->
-<!--                #{userId,jdbcType=INTEGER},-->
-<!--            </if>-->
-<!--            <if test="deptId != null">-->
-<!--                #{deptId,jdbcType=INTEGER},-->
-<!--            </if>-->
-<!--            <if test="username != null">-->
-<!--                #{username,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="password != null">-->
-<!--                #{password,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="email != null">-->
-<!--                #{email,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="phone != null">-->
-<!--                #{phone,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="sex != null">-->
-<!--                #{sex,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="salt != null">-->
-<!--                #{salt,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="status != null">-->
-<!--                #{status,jdbcType=CHAR},-->
-<!--            </if>-->
-<!--            <if test="delFlag != null">-->
-<!--                #{delFlag,jdbcType=CHAR},-->
-<!--            </if>-->
-<!--            <if test="remark != null">-->
-<!--                #{remark,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--        </trim>-->
 <!--    </insert>-->
 <!--    <update id="updateByPrimaryKeySelective" parameterType="com.seventeam.entity.TUser">-->
 <!--        update tbl_user-->
@@ -176,4 +172,3 @@
 <!--        remark = #{remark,jdbcType=VARCHAR}-->
 <!--        where user_id = #{userId,jdbcType=INTEGER}-->
 <!--    </update>-->
-</mapper>

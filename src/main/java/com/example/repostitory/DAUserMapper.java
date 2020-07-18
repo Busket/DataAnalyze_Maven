@@ -14,11 +14,14 @@ public interface DAUserMapper {
     //根据邮箱查找用户
     DAUser selectUserByEmail(String email);
 
+    //保存添加的用户
+    int insertSelective(DAUser record);
+
 //    int deleteByPrimaryKey(Integer userId);
 //
 //    int insert(DAUser record);
 //
-//    int insertSelective(TUser record);//保存添加的用户
+
 //
 //    TUser selectByPrimaryKey(Integer userId);
 //

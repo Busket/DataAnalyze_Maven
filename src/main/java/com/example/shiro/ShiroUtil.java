@@ -8,7 +8,6 @@ import org.springframework.util.DigestUtils;
 import java.util.UUID;
 
 /**
- * @author HB
  * @version 1.0
  * @date 2020/5/30 11:07
  */
