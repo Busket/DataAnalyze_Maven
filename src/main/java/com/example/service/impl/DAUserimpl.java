@@ -52,10 +52,10 @@ public class DAUserimpl implements DAUserService {
 
         //此处设置remember_token
         //为了方便测试，我们将过期时间设置为1分钟
-        JwtUtil jwtUtil=new JwtUtil();
-        String token=jwtUtil.createJWT(record);//创建jwt
-        System.out.println(token);
-        record.setRemember_token(token);
+//        JwtUtil jwtUtil=new JwtUtil();
+//        String token=jwtUtil.createJWT(record);//创建jwt
+//        System.out.println(token);
+//        record.setRemember_token(token);
 
         return daUserMapper.insertSelective(record);
     }
@@ -71,5 +71,13 @@ public class DAUserimpl implements DAUserService {
         return 0;
     }
 
-
+    @Override
+    public String generateJwtToken(DAUser daUser) {
+        //此处设置remember_token
+        //为了方便测试，我们将过期时间设置为1分钟
+        JwtUtil jwtUtil=new JwtUtil();
+        String token=jwtUtil.createJWT(daUser);//创建jwt
+        System.out.println(token);
+        return token;
+    }
 }

@@ -25,6 +25,7 @@ public class DARegisterController {
         {
             map.put("code", ConstantUtils.successCode);
             map.put("message", ConstantUtils.insertSuccessMsg);
+            //注册成功后，发送确认邮件
 
         }
         else

@@ -21,4 +21,6 @@ public interface DAUserService {
 
     //修改用户的信息（可以不修改密码）
     int updateByPrimaryKeySelective(DAUser record);
+
+    String generateJwtToken(DAUser daUser);
 }

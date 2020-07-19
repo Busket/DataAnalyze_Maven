@@ -26,7 +26,7 @@ public class ShiroUtil {
 
         String algorithmName= ConstantUtils.algorithmName;
         int hashIteration=ConstantUtils.hashIterations;
-        //四个参数：加密算法，明文，盐值，加密次数。
+                                        //四个参数：加密算法，明文，盐值，加密次数。
         SimpleHash simpleHash=new SimpleHash(algorithmName,message,salt,hashIteration);
         return simpleHash.toString();
 

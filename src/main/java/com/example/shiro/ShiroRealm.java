@@ -34,14 +34,14 @@ public class ShiroRealm extends AuthorizingRealm {
 
         //登录页面传来的用户名
         String email = token.getUsername();
-        DAUser daUser = daUserService.selectUserByEmail(email);
+        DAUser daUser = daUserService.selectUserByEmail(email);//数据库查找是否存在该邮箱，若存在则传出对象
         if(daUser == null){
             return null;
         }
         //2、查询密码是否正确。
-        String password = daUser.getPassword();
+        String password = daUser.getPassword();//获取 密码
         //Object principal, Object credentials,  ByteSource byteSource, String realmName
-        String salt = daUser.getSalt();
+        String salt = daUser.getSalt();//获取 盐
         ByteSource byteSource = ByteSource.Util.bytes(salt);
         SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(daUser,password, byteSource,getName());
         return simpleAuthenticationInfo;

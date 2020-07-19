@@ -44,8 +44,8 @@ public class JwtUtil {
                 .setSubject("DAUser")//设置主题
                 .setIssuedAt(now)//设置
                 .signWith(SignatureAlgorithm.HS256, key)
-                .claim("email",daUser.getEmail())
-                .claim("password",daUser.getPassword());
+                .claim("email",daUser.getEmail());
+//                .claim("password",daUser.getPassword());
         if (ttl > 0) {
             builder.setExpiration( new Date( nowMillis + ttl));
         }

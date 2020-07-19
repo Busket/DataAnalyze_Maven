@@ -19,13 +19,13 @@
     </sql>
     <!--查找所有用户-->
     <select id="selectAllUser"  resultMap="BaseResultMap">
-        select * from DAUser
+        select * from da_user
     </select>
     <!--通过email查找-->
     <select id="selectUserByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
-        from DAUSer
+        from da_user
         where email = #{email,jdbcType=VARCHAR}
     </select>
     <!--注册用户（插入用户）-->
