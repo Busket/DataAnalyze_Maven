@@ -16,6 +16,10 @@ public interface DAUserMapper {
 
     //保存添加的用户
     int insertSelective(DAUser record);
+    //保存（更新）token
+    int updateToken(DAUser record);
+    //登出
+    int deletLoginInfo(String email);
 
 //    int deleteByPrimaryKey(Integer userId);
 //

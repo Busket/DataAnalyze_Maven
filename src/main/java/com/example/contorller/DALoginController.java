@@ -69,6 +69,8 @@ public class DALoginController {
     @RequestMapping(value = "/login")
     public ResponseEntity<Void> login(String email, String password, HttpServletRequest request, HttpServletResponse response){
         Subject subject = SecurityUtils.getSubject();
+        System.out.println(email);
+        System.out.println(password);
         try {
             //将用户请求参数封装后，直接提交给Shiro处理
             UsernamePasswordToken token = new UsernamePasswordToken(email, password);
@@ -77,6 +79,12 @@ public class DALoginController {
             DAUser daUser = (DAUser) subject.getPrincipal();
             String newToken = daUserService.generateJwtToken(daUser);
             response.setHeader("remember_token", newToken);
+            //对token进行持久化
+            DAUser record=new DAUser();
+            record.setEmail(email);
+            record.setRemember_token(newToken);
+            daUserService.updateToken(record);
+
             System.out.println("验证成功，返回token");
             return ResponseEntity.ok().build();
         } catch (AuthenticationException e) {
@@ -94,7 +102,8 @@ public class DALoginController {
         Subject subject = SecurityUtils.getSubject();
         if(subject.getPrincipals() != null) {
             DAUser daUser = (DAUser)subject.getPrincipals().getPrimaryPrincipal();
-            //daUserService.deleteLoginInfo(daUser.getUsername());
+            daUserService.deleteLoginInfo(daUser.getEmail());//根据email删除token
+            System.out.println("用户登出成功！");
         }
         SecurityUtils.getSubject().logout();
         return ResponseEntity.ok().build();

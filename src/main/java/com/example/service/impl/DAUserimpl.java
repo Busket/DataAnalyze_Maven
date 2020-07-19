@@ -80,4 +80,15 @@ public class DAUserimpl implements DAUserService {
         System.out.println(token);
         return token;
     }
+
+    @Override
+    public int updateToken(DAUser record) {
+        System.out.println(record.getRemember_token());
+        return daUserMapper.updateToken(record);
+    }
+
+    @Override
+    public int deleteLoginInfo(String email) {
+        return daUserMapper.deletLoginInfo(email);
+    }
 }

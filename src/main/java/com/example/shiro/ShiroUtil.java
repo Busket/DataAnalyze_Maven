@@ -46,7 +46,6 @@ public class ShiroUtil {
         System.out.println("加密时用的盐："+salt);*/
 
         String salt= UUID.randomUUID().toString();
-
         String en=encryptionBySalt(salt,message);
         System.out.println(en);
     }

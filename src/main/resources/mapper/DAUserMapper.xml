@@ -2,29 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.repostitory.DAUserMapper">
     <resultMap id="BaseResultMap" type="com.example.entity.DAUser">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="name" jdbcType="VARCHAR" property="name" />
-        <result column="phone" jdbcType="VARCHAR" property="phone" />
-        <result column="password" jdbcType="VARCHAR" property="password" />
-        <result column="email" jdbcType="VARCHAR" property="email" />
-        <result column="email_verified_at" jdbcType="TIMESTAMP" property="email_verified_at" />
-        <result column="remember_token" jdbcType="VARCHAR" property="remember_token" />
-        <result column="creat_at" jdbcType="TIMESTAMP" property="creat_at" />
-        <result column="update_at" jdbcType="TIMESTAMP" property="update_at" />
-<!--        <result column="competence" jdbcType="VARCHAR" property="competence" />-->
-        <result column="salt" jdbcType="VARCHAR" property="salt" />
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="email_verified_at" jdbcType="TIMESTAMP" property="email_verified_at"/>
+        <result column="remember_token" jdbcType="VARCHAR" property="remember_token"/>
+        <result column="creat_at" jdbcType="TIMESTAMP" property="creat_at"/>
+        <result column="update_at" jdbcType="TIMESTAMP" property="update_at"/>
+        <!--        <result column="competence" jdbcType="VARCHAR" property="competence" />-->
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
     </resultMap>
     <sql id="Base_Column_List">
         id,name,phone,password,email,email_verified_at,remember_token,creat_at,update_at,salt
     </sql>
     <!--查找所有用户-->
-    <select id="selectAllUser"  resultMap="BaseResultMap">
+    <select id="selectAllUser" resultMap="BaseResultMap">
         select * from da_user
     </select>
     <!--通过email查找-->
     <select id="selectUserByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from da_user
         where email = #{email,jdbcType=VARCHAR}
     </select>
@@ -97,78 +97,88 @@
             </if>
         </trim>
     </insert>
+    <update id="updateToken" parameterType="com.example.entity.DAUser">
+        update da_user
+        set remember_token = #{remember_token,jdbcType=VARCHAR}
+        where email = #{email,jdbcType=VARCHAR}
+    </update>
+    <update id="deletLoginInfo" parameterType="java.lang.String">
+        update da_user
+        set remember_token = NUll
+        where email = #{email,jdbcType=VARCHAR}
+    </update>
 </mapper>
-<!--    <delete id="delUserByID"  parameterType="java.util.List">-->
-<!--        delete from tbl_user-->
-<!--        where id in-->
-<!--        <foreach collection="ids" item="xxx" open="(" close=")" separator=",">-->
-<!--            #{xxx}-->
-<!--        </foreach>-->
-<!--    </delete>-->
-<!--    <select id="selectUserByName" resultType="com.seventeam.entity.TUser">-->
-<!--        select * from tbl_user where username =#{name}-->
-<!--    </select>-->
-<!--    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">-->
-<!--        delete from tbl_user-->
-<!--        where user_id = #{userId,jdbcType=INTEGER}-->
-<!--    </delete>-->
-<!--    <insert id="insert" parameterType="com.seventeam.entity.TUser">-->
-<!--        insert into tbl_user (user_id, dept_id, username,-->
-<!--        password, email, phone,-->
-<!--        sex, salt, status, del_flag,-->
-<!--        remark)-->
-<!--        values (#{userId,jdbcType=INTEGER}, #{deptId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR},-->
-<!--        #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},-->
-<!--        #{sex,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{delFlag,jdbcType=CHAR},-->
-<!--        #{remark,jdbcType=VARCHAR})-->
-<!--    </insert>-->
-<!--    <update id="updateByPrimaryKeySelective" parameterType="com.seventeam.entity.TUser">-->
-<!--        update tbl_user-->
-<!--        <set>-->
-<!--            <if test="deptId != null">-->
-<!--                dept_id = #{deptId,jdbcType=INTEGER},-->
-<!--            </if>-->
-<!--            <if test="username != null">-->
-<!--                username = #{username,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="password != null">-->
-<!--                password = #{password,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="email != null">-->
-<!--                email = #{email,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="phone != null">-->
-<!--                phone = #{phone,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="sex != null">-->
-<!--                sex = #{sex,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="salt != null">-->
-<!--                salt = #{salt,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="status != null">-->
-<!--                status = #{status,jdbcType=CHAR},-->
-<!--            </if>-->
-<!--            <if test="delFlag != null">-->
-<!--                del_flag = #{delFlag,jdbcType=CHAR},-->
-<!--            </if>-->
-<!--            <if test="remark != null">-->
-<!--                remark = #{remark,jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--        </set>-->
-<!--        where user_id = #{userId,jdbcType=INTEGER}-->
-<!--    </update>-->
-<!--    <update id="updateByPrimaryKey" parameterType="com.seventeam.entity.TUser">-->
-<!--        update tbl_user-->
-<!--        set dept_id = #{deptId,jdbcType=INTEGER},-->
-<!--        username = #{username,jdbcType=VARCHAR},-->
-<!--        password = #{password,jdbcType=VARCHAR},-->
-<!--        email = #{email,jdbcType=VARCHAR},-->
-<!--        phone = #{phone,jdbcType=VARCHAR},-->
-<!--        sex = #{sex,jdbcType=VARCHAR},-->
-<!--        salt = #{salt,jdbcType=VARCHAR},-->
-<!--        status = #{status,jdbcType=CHAR},-->
-<!--        del_flag = #{delFlag,jdbcType=CHAR},-->
-<!--        remark = #{remark,jdbcType=VARCHAR}-->
-<!--        where user_id = #{userId,jdbcType=INTEGER}-->
-<!--    </update>-->
+        <!--    <delete id="delUserByID"  parameterType="java.util.List">-->
+        <!--        delete from tbl_user-->
+        <!--        where id in-->
+        <!--        <foreach collection="ids" item="xxx" open="(" close=")" separator=",">-->
+        <!--            #{xxx}-->
+        <!--        </foreach>-->
+        <!--    </delete>-->
+        <!--    <select id="selectUserByName" resultType="com.seventeam.entity.TUser">-->
+        <!--        select * from tbl_user where username =#{name}-->
+        <!--    </select>-->
+        <!--    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">-->
+        <!--        delete from tbl_user-->
+        <!--        where user_id = #{userId,jdbcType=INTEGER}-->
+        <!--    </delete>-->
+        <!--    <insert id="insert" parameterType="com.seventeam.entity.TUser">-->
+        <!--        insert into tbl_user (user_id, dept_id, username,-->
+        <!--        password, email, phone,-->
+        <!--        sex, salt, status, del_flag,-->
+        <!--        remark)-->
+        <!--        values (#{userId,jdbcType=INTEGER}, #{deptId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR},-->
+        <!--        #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},-->
+        <!--        #{sex,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{delFlag,jdbcType=CHAR},-->
+        <!--        #{remark,jdbcType=VARCHAR})-->
+        <!--    </insert>-->
+        <!--    <update id="updateByPrimaryKeySelective" parameterType="com.seventeam.entity.TUser">-->
+        <!--        update tbl_user-->
+        <!--        <set>-->
+        <!--            <if test="deptId != null">-->
+        <!--                dept_id = #{deptId,jdbcType=INTEGER},-->
+        <!--            </if>-->
+        <!--            <if test="username != null">-->
+        <!--                username = #{username,jdbcType=VARCHAR},-->
+        <!--            </if>-->
+        <!--            <if test="password != null">-->
+        <!--                password = #{password,jdbcType=VARCHAR},-->
+        <!--            </if>-->
+        <!--            <if test="email != null">-->
+        <!--                email = #{email,jdbcType=VARCHAR},-->
+        <!--            </if>-->
+        <!--            <if test="phone != null">-->
+        <!--                phone = #{phone,jdbcType=VARCHAR},-->
+        <!--            </if>-->
+        <!--            <if test="sex != null">-->
+        <!--                sex = #{sex,jdbcType=VARCHAR},-->
+        <!--            </if>-->
+        <!--            <if test="salt != null">-->
+        <!--                salt = #{salt,jdbcType=VARCHAR},-->
+        <!--            </if>-->
+        <!--            <if test="status != null">-->
+        <!--                status = #{status,jdbcType=CHAR},-->
+        <!--            </if>-->
+        <!--            <if test="delFlag != null">-->
+        <!--                del_flag = #{delFlag,jdbcType=CHAR},-->
+        <!--            </if>-->
+        <!--            <if test="remark != null">-->
+        <!--                remark = #{remark,jdbcType=VARCHAR},-->
+        <!--            </if>-->
+        <!--        </set>-->
+        <!--        where user_id = #{userId,jdbcType=INTEGER}-->
+        <!--    </update>-->
+        <!--    <update id="updateByPrimaryKey" parameterType="com.seventeam.entity.TUser">-->
+        <!--        update tbl_user-->
+        <!--        set dept_id = #{deptId,jdbcType=INTEGER},-->
+        <!--        username = #{username,jdbcType=VARCHAR},-->
+        <!--        password = #{password,jdbcType=VARCHAR},-->
+        <!--        email = #{email,jdbcType=VARCHAR},-->
+        <!--        phone = #{phone,jdbcType=VARCHAR},-->
+        <!--        sex = #{sex,jdbcType=VARCHAR},-->
+        <!--        salt = #{salt,jdbcType=VARCHAR},-->
+        <!--        status = #{status,jdbcType=CHAR},-->
+        <!--        del_flag = #{delFlag,jdbcType=CHAR},-->
+        <!--        remark = #{remark,jdbcType=VARCHAR}-->
+        <!--        where user_id = #{userId,jdbcType=INTEGER}-->
+        <!--    </update>-->

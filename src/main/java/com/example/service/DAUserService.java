@@ -23,4 +23,8 @@ public interface DAUserService {
     int updateByPrimaryKeySelective(DAUser record);
 
     String generateJwtToken(DAUser daUser);
+
+    int updateToken(DAUser record);
+
+    int deleteLoginInfo(String email);
 }

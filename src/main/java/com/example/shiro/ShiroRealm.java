@@ -30,14 +30,17 @@ public class ShiroRealm extends AuthorizingRealm {
         //开始校验用户名和密码
         //取出令牌信息
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
-        //登录验证分两个步骤：1、查询用户是否存在；
-
+        System.out.println("验证用户是否存在");
+        //登录验证分两个步骤：
+        // 1、查询用户是否存在；
         //登录页面传来的用户名
         String email = token.getUsername();
         DAUser daUser = daUserService.selectUserByEmail(email);//数据库查找是否存在该邮箱，若存在则传出对象
         if(daUser == null){
+            System.out.println("用户不存在");
             return null;
         }
+        System.out.println("用户存在！");
         //2、查询密码是否正确。
         String password = daUser.getPassword();//获取 密码
         //Object principal, Object credentials,  ByteSource byteSource, String realmName
