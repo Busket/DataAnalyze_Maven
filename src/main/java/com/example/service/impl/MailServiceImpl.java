@@ -1,8 +1,8 @@
 package com.example.service.impl;
 
 import com.example.service.MailService;
-import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -18,11 +18,11 @@ public class MailServiceImpl implements MailService {
 
     @Autowired
     JavaMailSenderImpl mailSender;
-
+    @Value("${spring.mail.username}")
     private String from;
 
     @Override
-    public void sendMimeMail(String to, String subject, String content) {
+    public void sendMimeMail(String to, String subject, String content) {//发送一般的邮件
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = null;
         try {
@@ -41,7 +41,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendInlineResourceMail(String to, String subject, String content, String rscPath, String rscId) {
+    public void sendInlineResourceMail(String to, String subject, String content, String rscPath, String rscId) {//发送带有附件的邮件
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = null;
 
@@ -63,7 +63,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendSimpleMailMessage(String to, String subject, String content) {
+    public void sendSimpleMailMessage(String to, String subject, String content) {//测试用的方法
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject("今晚开会");
             message.setText("你好呀小游游！\n给你看个东西");

@@ -20,6 +20,12 @@ public interface DAUserMapper {
     int updateToken(DAUser record);
     //登出
     int deletLoginInfo(String email);
+    //邮件确认，通过邮箱查找激活码
+    String checkActiveCodebyEmail(String email);
+    //邮箱确认成功后，更改激活码
+    void changeActiveCode(String email);
+    //邮箱确认后，更改邮箱确认时间
+    void changeActiveTime(DAUser record);
 
 //    int deleteByPrimaryKey(Integer userId);
 //

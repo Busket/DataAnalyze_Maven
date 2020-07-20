@@ -114,6 +114,19 @@
         set remember_token = NUll
         where email = #{email,jdbcType=VARCHAR}
     </update>
+    <select id="checkActiveCodebyEmail" parameterType="java.lang.String" resultType="java.lang.String">
+        select activecode from da_user where email = #{email,jdbcType=VARCHAR}
+    </select>
+    <update id="changeActiveCode" parameterType="java.lang.String">
+        update da_user
+        set activecode = "Actived"
+        where email = #{email,jdbcType=VARCHAR}
+    </update>
+    <update id="changeActiveTime" parameterType="com.example.entity.DAUser">
+        update da_user
+        set email_verified_at = #{email_verified_at,jdbcType=TIMESTAMP}
+        where email = #{email,jdbcType=VARCHAR}
+    </update>
 </mapper>
         <!--    <delete id="delUserByID"  parameterType="java.util.List">-->
         <!--        delete from tbl_user-->

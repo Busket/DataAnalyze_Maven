@@ -14,6 +14,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
@@ -86,5 +87,40 @@ public class DAUserimpl implements DAUserService {
     @Override
     public int deleteLoginInfo(String email) {
         return daUserMapper.deletLoginInfo(email);
+    }
+    //根据邮件查找激活码验证是否正确
+    @Override
+    public int checkActiveCodebyEmail(String email, String activecode) {
+        String dbactivecode=daUserMapper.checkActiveCodebyEmail(email);//获取数据库中的激活码
+        System.out.println(dbactivecode);
+        if(dbactivecode.equals("Actived")){
+            return -1;
+        }else{
+            if(activecode.equals(dbactivecode)){//进行激活码的比对
+                return 1;
+            }else{
+                return 0;
+            }
+        }
+    }
+    //邮箱确认成功后，更改激活码
+    @Override
+    public int changeActiveCode(String email) {
+        try{
+            daUserMapper.changeActiveCode(email);
+            return 1;
+        }catch (Exception e){
+            return 0;
+        }
+    }
+    //邮箱确认后添加确认时间，即修改Email_verified_at
+    @Override
+    public void changeActiveTime(String email) {
+        Timestamp t = new Timestamp(System.currentTimeMillis());
+
+        DAUser record=new DAUser();
+        record.setEmail(email);
+        record.setEmail_verified_at(t);
+        daUserMapper.changeActiveTime(record);
     }
 }

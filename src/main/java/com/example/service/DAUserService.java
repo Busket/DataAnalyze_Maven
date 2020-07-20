@@ -21,10 +21,16 @@ public interface DAUserService {
 
     //修改用户的信息（可以不修改密码）
     int updateByPrimaryKeySelective(DAUser record);
-
+    //获得token
     String generateJwtToken(DAUser daUser);
-
+    //数据库更新token
     int updateToken(DAUser record);
-
+    //登出，删除token
     int deleteLoginInfo(String email);
+    //邮箱确认，通过邮箱查找激活码，再进行比对
+    int checkActiveCodebyEmail(String email, String activecode);
+    //邮箱确认成功后，更改激活码
+    int changeActiveCode(String emai);
+    //邮箱确认后添加确认时间，即修改Email_verified_at
+    void changeActiveTime(String email);
 }
