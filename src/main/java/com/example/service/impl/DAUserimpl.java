@@ -4,6 +4,7 @@ import com.example.entity.DAUser;
 import com.example.repostitory.DAUserMapper;
 import com.example.service.DAUserService;
 import com.example.shiro.ShiroUtil;
+import com.example.util.ActiveCodeUtils;
 import com.example.util.JwtUtil;
 import com.github.pagehelper.PageInfo;
 import io.jsonwebtoken.JwtBuilder;
@@ -50,12 +51,9 @@ public class DAUserimpl implements DAUserService {
         record.setCreat_at(t);
         record.setUpdate_at(t);
 
-        //此处设置remember_token
-        //为了方便测试，我们将过期时间设置为1分钟
-//        JwtUtil jwtUtil=new JwtUtil();
-//        String token=jwtUtil.createJWT(record);//创建jwt
-//        System.out.println(token);
-//        record.setRemember_token(token);
+        //此处设置activecode
+        record.setActivecode(ActiveCodeUtils.giveCode());
+        System.out.println(record.getActivecode());
 
         return daUserMapper.insertSelective(record);
     }
@@ -74,19 +72,17 @@ public class DAUserimpl implements DAUserService {
     @Override
     public String generateJwtToken(DAUser daUser) {
         //此处设置remember_token
-        //为了方便测试，我们将过期时间设置为1分钟
         JwtUtil jwtUtil=new JwtUtil();
         String token=jwtUtil.createJWT(daUser);//创建jwt
-        System.out.println(token);
+        System.out.println("token创建完成！");
         return token;
     }
-
+    //更新token
     @Override
     public int updateToken(DAUser record) {
-        System.out.println(record.getRemember_token());
         return daUserMapper.updateToken(record);
     }
-
+    //删除token(登出)
     @Override
     public int deleteLoginInfo(String email) {
         return daUserMapper.deletLoginInfo(email);

@@ -24,6 +24,7 @@ public class DAUser {
     private Timestamp creat_at;//账号注册时间
     private Timestamp update_at;//账号更新时间
     private String salt;//盐
+    private String activecode;//激活码，用于邮箱激活
     //头像...
     //逻辑删除（注销）
     public int getId() {
@@ -112,5 +113,13 @@ public class DAUser {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public String getActivecode() {
+        return activecode;
+    }
+
+    public void setActivecode(String activecode) {
+        this.activecode = activecode;
     }
 }

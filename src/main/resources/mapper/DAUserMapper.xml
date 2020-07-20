@@ -13,9 +13,10 @@
         <result column="update_at" jdbcType="TIMESTAMP" property="update_at"/>
         <!--        <result column="competence" jdbcType="VARCHAR" property="competence" />-->
         <result column="salt" jdbcType="VARCHAR" property="salt"/>
+        <result column="activecode" jdbcType="VARCHAR" property="activecode"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id,name,phone,password,email,email_verified_at,remember_token,creat_at,update_at,salt
+        id,name,phone,password,email,email_verified_at,remember_token,creat_at,update_at,salt,activecode
     </sql>
     <!--查找所有用户-->
     <select id="selectAllUser" resultMap="BaseResultMap">
@@ -62,6 +63,9 @@
             <if test="salt != null">
                 salt,
             </if>
+            <if test="activecode != null">
+                activecode,
+            </if>
 
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -94,6 +98,9 @@
             </if>
             <if test="salt != null">
                 #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="activecode != null">
+                #{activecode,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
