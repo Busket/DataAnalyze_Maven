@@ -1,8 +1,11 @@
 package com.example.contorller;
 
 import com.example.entity.DAUser;
+import com.example.entity.VerifyCode;
 import com.example.service.DAUserService;
 
+import com.example.service.IVerifyCodeGen;
+import com.example.service.impl.SimpleCharVerifyCodeGenImpl;
 import jdk.nashorn.internal.runtime.Context;
 
 import org.apache.shiro.SecurityUtils;
@@ -20,8 +23,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-
+import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 
 
 @Controller
@@ -35,36 +39,6 @@ public class DALoginController {
     public String toLogin(){
         return "login";
     }
-
-//    @RequestMapping("/login")
-//    public String login(String email, String password, Model model){
-//        System.out.println("邮箱："+ email);
-//        System.out.println("密码："+ password);
-//        //获取shiro的主体
-//        Subject subject = SecurityUtils.getSubject();
-//        //构建用户登录令牌
-//        UsernamePasswordToken token = new UsernamePasswordToken(email, password);
-//        System.out.println(token);
-//        try{
-//            subject.login(token);
-//        }catch (UnknownAccountException e){
-//            model.addAttribute("msg","用户名错误");
-//            return "login";
-//        }catch (IncorrectCredentialsException e){
-//            model.addAttribute("msg","密码错误");
-//            return  "login";
-//        }
-//        //放入用户名
-//        model.addAttribute("loginEmail",email);
-//
-////        //hzk 菜单管理
-////        //放入所有的菜单，根据当前登录的用户
-////
-////        List<LayuiTableTree> menus = tMenuBiz.selectAllMenuByName(name);
-////        model.addAttribute("menus",menus);
-//        return "index";
-//    }
-
 
     @RequestMapping(value = "/login")
     public ResponseEntity<Void> login(String email, String password, HttpServletRequest request, HttpServletResponse response){
@@ -107,6 +81,13 @@ public class DALoginController {
         }
         SecurityUtils.getSubject().logout();
         return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(value="resendConfirmEmail")
+    public Object resendConfirmEmail(String eamil,String verifyCode){//重新发送邮箱
+
+
+        return null;
     }
 
 
