@@ -23,9 +23,8 @@
         select * from da_user
     </select>
     <!--通过email查找-->
-    <select id="selectUserByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
+    <select id="selectUserByEmail" parameterType="java.lang.String" resultType="com.example.entity.DAUser">
+        select *
         from da_user
         where email = #{email,jdbcType=VARCHAR}
     </select>

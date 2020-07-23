@@ -5,6 +5,7 @@ import com.example.entity.VerifyCode;
 import com.example.service.DAUserService;
 
 import com.example.service.IVerifyCodeGen;
+import com.example.service.MailService;
 import com.example.service.impl.SimpleCharVerifyCodeGenImpl;
 import jdk.nashorn.internal.runtime.Context;
 
@@ -32,7 +33,8 @@ import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 public class DALoginController {
     @Autowired
     private DAUserService daUserService;
-
+    @Autowired
+    MailService mailService;//用于发送确认邮件
 
 
     @RequestMapping("/toLogin")
@@ -84,10 +86,17 @@ public class DALoginController {
     }
 
     @RequestMapping(value="resendConfirmEmail")
-    public Object resendConfirmEmail(String eamil,String verifyCode){//重新发送邮箱
-
-
-        return null;
+    public Object resendConfirmEmail(String email) {//重新发送邮箱
+        //用户输入邮箱，以及验证码
+        //前端验证通过之后，调用该方法
+        DAUser daUser = daUserService.selectUserByEmail(email);//根据用户所输入的邮箱进行查找
+        if (daUser == null) return "邮箱输入错误或者距离注册已经超过24小时";//如果在数据库中找不到该用户
+        if (daUser.getActivecode().equals("Actived")) {//如果已经注册了就返回
+            return "邮箱已注册";
+        } else {
+            mailService.sendMimeMail(daUser.getEmail(), "欢迎您使用我们的系统！", "请复制访问以下链接进行确认。\nhttp://localhost:8080/emailconfirm?email=" + daUser.getEmail() + "&activecode=" + daUser.getActivecode());
+        }
+        return "邮件以发送，请查收！";
     }
 
 
